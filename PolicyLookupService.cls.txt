@@ -1,0 +1,16 @@
+public with sharing class PolicyLookupService {
+    
+      Returns all Active policies for a given Account.
+      Used by the claims-intake process to verify a customer
+      has valid coverage before a claim is created.
+     
+    public static ListPolicy__c getActivePolicies(Id accountId) {
+        return [
+            SELECT Id, Name, Policy_Number__c, Coverage_Type__c,
+                   Coverage_Limit__c, Status__c, Effective_Date__c
+            FROM Policy__c
+            WHERE Policy_Holder__c = accountId
+            AND Status__c = 'Active'
+        ];
+    }
+}
